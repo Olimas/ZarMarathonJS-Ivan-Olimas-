@@ -61,7 +61,12 @@ function createPlayer(playerObj) {
 function changeHP(player) {
 	const $playerLife = document.querySelector('.player'+ player.player +' .life');
 	player.hp -= Math.ceil(Math.random() * 20);
-	$playerLife.style.width = player.hp + '%';
+
+	let playerHpPercent = player.hp + '%';
+	$playerLife.style.width = playerHpPercent;
+
+	let $name = document.querySelector('.player'+ player.player +' .name')
+	$name.innerText = player.name + playerHpPercent;
 
 	if (player1.hp < 0 && player2.hp > 0) {
 		$arenas.appendChild(playerLose(player2.name));
@@ -71,14 +76,26 @@ function changeHP(player) {
 		$arenas.appendChild(playerLose(player1.name));
 		player.hp = 0;
 		$playerLife.style.width = 0;
+	} else if (player1.hp <= 0 && player2.hp <= 0) {
+		$arenas.appendChild(playerLose('draw'));
+		player.hp = 0;
+		$playerLife.style.width = 0;
 	}
-
+	if (player.hp <= 0) {
+		$name.innerText = 0;
+	}
 	console.log(player.hp);
 }
 
 function playerLose(name) {
 	const $loseTitle = createElement('div', 'loseTitle');
-	$loseTitle.innerText = name + ' win';
+	if (name != 'draw') {
+		$loseTitle.innerText = name + ' win';
+	} else if (name = 'draw') {
+		document.querySelector('.loseTitle').remove()
+		$loseTitle.innerText = name;
+	}
+
 	$randomButton.disabled = true;
 	return $loseTitle;
 }
