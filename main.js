@@ -41,7 +41,7 @@ function createPlayer(playerObj) {
 	const $life = createElement('div', 'life');
 	const $name = createElement('div', 'name');
 	const $img = createElement('img');
-//////////////////////////////////////////////////////////////
+
 	let playerHpBar = ` ${playerObj.hp}%`;
 	$life.style.width = playerHpBar;
 	$name.innerText = playerObj.name + playerHpBar;
@@ -62,29 +62,24 @@ function changeHP(player) {
 	const $playerLife = document.querySelector('.player'+ player.player +' .life');
 	player.hp -= Math.ceil(Math.random() * 20);
 
-	let playerHpPercent = player.hp + '%';
-	$playerLife.style.width = playerHpPercent;
-
-	let $name = document.querySelector('.player'+ player.player +' .name')
-	$name.innerText = player.name + playerHpPercent;
-
 	if (player1.hp < 0 && player2.hp > 0) {
 		$arenas.appendChild(playerLose(player2.name));
-		player.hp = 0;
-		$playerLife.style.width = 0;
 	} else if (player1.hp > 0 && player2.hp < 0) {
 		$arenas.appendChild(playerLose(player1.name));
-		player.hp = 0;
-		$playerLife.style.width = 0;
 	} else if (player1.hp <= 0 && player2.hp <= 0) {
 		$arenas.appendChild(playerLose('draw'));
-		player.hp = 0;
-		$playerLife.style.width = 0;
 	}
+	$playerLife.style.width = player.hp + '%';
+	console.log(player.hp);
+}
+
+function changeHPpercent(player) {
+	let $name = document.querySelector('.player'+ player.player +' .name')
+	$name.innerText = player.name + player.hp + '%';
 	if (player.hp <= 0) {
 		$name.innerText = 0;
+		player.hp = 0;
 	}
-	console.log(player.hp);
 }
 
 function playerLose(name) {
@@ -95,7 +90,6 @@ function playerLose(name) {
 		document.querySelector('.loseTitle').remove()
 		$loseTitle.innerText = name;
 	}
-
 	$randomButton.disabled = true;
 	return $loseTitle;
 }
@@ -103,7 +97,9 @@ function playerLose(name) {
 $randomButton.addEventListener('click', function () {
 	console.log('click');
 	changeHP(player1);
+	changeHPpercent(player1);
 	changeHP(player2);
+	changeHPpercent(player2);
 })
 
 $arenas.appendChild(createPlayer(player1));
