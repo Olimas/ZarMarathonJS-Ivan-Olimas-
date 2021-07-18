@@ -1,2 +1,2 @@
 # Play the game)
-https://olimas.github.io/ZarMarathonJS-Ivan-Olimas-/
+https://olimas.github.io/mini-game-Mortal-Combat/
